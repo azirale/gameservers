@@ -5,7 +5,7 @@
 # we are expecting to run on ubuntu latest with an NVME drive
 
 # this is where everything is going to operate out of -- we do not touch anything else
-BASE_DIR=${HOME}/ssd
+BASE_DIR=/home/${GAME_USER}/ssd
 
 # backups will go here
 BUCKET_ROOT=s3://${BUCKET_NAME}/${CONTEXT}
@@ -18,8 +18,11 @@ R53ZONE=Z2YZPOMGKJCOKK
 
 
 # keep a status file updated in case admin wants to watch as the script goes without all the other shell output guff
-INIT_STATUS_PATH=~/INIT_STATUS
+INIT_STATUS_PATH=/home/${GAME_USER}/INIT_STATUS
 update_init_status() {
+    echo "===================================================================="
+    echo "$*"
+    echo "===================================================================="
     echo "$*">${INIT_STATUS_PATH}
 }
 
@@ -49,17 +52,17 @@ sudo chown ${GAME_USER}:${GAME_USER} ${BASE_DIR}
 # fetch and run the LGSM bootstrapper
 update_init_status LGSM BOOTSTRAP
 LGSMFILE=linuxgsm.sh
+LGSMGAME=fctrserver
 cd ${BASE_DIR}
 wget -O ${LGSMFILE} https://linuxgsm.sh
 chmod +x ${LGSMFILE}
-./${LGSMFILE}
+./${LGSMFILE} ${LGSMGAME}
 
 
 # install the game server
 update_init_status GAME INSTALL
-COMMAND_FILE=fctrserver
 cd ${BASE_DIR}
-./${COMMAND_FILE} ai # autoinstall -- no prompts to hold things up
+./${LGSMGAME} ai # autoinstall -- no prompts to hold things up
 
 
 # prep the management script
@@ -68,8 +71,8 @@ cd ${BASE_DIR}
 wget -O manage.sh ${WEBROOT}/manage.sh
 chmod +x manage.sh
 # inject instance configuration information into the management script
-sed -i "s|__BASE_DIR_REPLACEME__|${BASE_DIR}|g"
-sed -i "s|__BUCKET_ROOT_REPLACEME__|${BUCKET_ROOT}|g"
+sed -i "s|__BASE_DIR_REPLACEME__|${BASE_DIR}|g" manage.sh
+sed -i "s|__BUCKET_ROOT_REPLACEME__|${BUCKET_ROOT}|g" manage.sh
 
 
 # run restore over base installation

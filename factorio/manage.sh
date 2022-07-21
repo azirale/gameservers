@@ -20,7 +20,7 @@ HOUR=$(date +%H)
 # locations of various save files and backups
 PRIMARY_SAVE=serverfiles/save1.zip
 PREVIOUS_AUTOSAVE=CURRENT_AUTOSAVE.zip
-CURRENT_AUTOSAVE=$(printf ${BASE_DIR}/serverfiles/saves/; ls -t1 ${BASE_DIR}/serverfiles/saves | grep -P '_autosave\d+\.zip' | head -n1)
+CURRENT_AUTOSAVE=$(printf ${BASE_DIR}/serverfiles/saves/; ls -t1 ${BASE_DIR}/serverfiles/saves 2>/dev/null | grep -P '_autosave\d+\.zip' | head -n1)
 LATEST_BACKUP=${BUCKET_ROOT}/latest_autosave.zip
 PERSISTENT_BACKUP=${BUCKET_ROOT}/${YMD}/${YMDHMS}
 SETTINGS_BACKUP=${BUCKET_ROOT}/settings.tar
