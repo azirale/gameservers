@@ -83,8 +83,8 @@ cd ${BASE_DIR}
 # start game
 update_init_status STARTING GAME
 cd ${BASE_DIR}
-./${COMMAND_FILE} start
-./${COMMAND_FILE} details # just to put this in the cloud init log
+./${LGSMGAME} start
+./${LGSMGAME} details # just to put this in the cloud init log
 
 # now that everything is in place schedule backups -- script runs every minute and has logic to determine if it should do anything
 update_init_status SCHEDULING BACKUPS
