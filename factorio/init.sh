@@ -92,9 +92,9 @@ update_init_status SCHEDULING BACKUPS
 (
     crontab -l;
     # every minute do the latest backup -- should validate if latest has changed
-    echo "* * * * * ${BASE_DIR}/backup.sh BACKUP_LATEST"
+    echo "* * * * * ${BASE_DIR}/manage.sh BACKUP_LATEST"
     # every hour do a persistent backup
-    echo "0 * * * * ${BASE_DIR}/backup.sh BACKUP_PERSISTENT"
+    echo "0 * * * * ${BASE_DIR}/manage.sh BACKUP_PERSISTENT"
 ) | crontab -
 
 
