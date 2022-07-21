@@ -5,7 +5,7 @@
 # we are expecting to run on ubuntu latest with an NVME drive
 
 # this is where everything is going to operate out of -- we do not touch anything else
-BASE_DIR=~/ssd
+BASE_DIR=${HOME}/ssd
 
 # backups will go here
 BUCKET_ROOT=s3://${BUCKET_NAME}/${CONTEXT}
