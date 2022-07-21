@@ -21,4 +21,4 @@ INIT_FILE=/home/${GAME_USER}/init.sh
 wget -O ${INIT_FILE} ${WEBROOT}/init.sh
 chown ${GAME_USER}:${GAME_USER} ${INIT_FILE}
 chmod +x ${INIT_FILE}
-sudo -E -u ${GAME_OWNER} ${INIT_FILE}
+sudo -E -u ${GAME_USER} ${INIT_FILE}
