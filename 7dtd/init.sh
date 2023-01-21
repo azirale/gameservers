@@ -102,7 +102,7 @@ update_init_status SCHEDULING BACKUPS
     # every hour do a soft backup
     echo "0 * * * * ${BASE_DIR}/manage.sh BACKUP_SOFT"
     # every day do a hard backup at 4:30am melbs
-    echo "30 15 * * * ${BASE_DIR}/manage.sh BACKUP_HARD"
+    echo "30 17 * * * ${BASE_DIR}/manage.sh BACKUP_HARD"
 ) | crontab -
 
 
