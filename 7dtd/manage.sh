@@ -41,7 +41,7 @@ do_soft_backup() {
 do_hard_backup() {
     echo "Doing hard backup"
     ./sdtdserver stop
-    do_soft_backup()
+    do_soft_backup
     ./sdtdserver start
 }
 
