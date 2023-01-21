@@ -60,10 +60,10 @@ restore_backup() {
 # handle call
 if [[ "${COMMAND_PARAM}" = "BACKUP_SOFT" ]]
 then
-    do_latest_backup
+    do_soft_backup
 elif [[ "${COMMAND_PARAM}" = "BACKUP_HARD" ]]
 then
-    do_persistent_backup
+    do_hard_backup
 elif [[ "${COMMAND_PARAM}" = "RESTORE" ]]
 then
     restore_backup
