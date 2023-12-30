@@ -35,10 +35,8 @@ update_init_status() {
 
 # update and install dependencies for the game, plus awscli for self-management
 update_init_status DEPENDENCIES
-# WIP
-exit
 sudo dpkg --add-architecture i386;
-sudo add-apt-repository multiverse -yq; # ubuntu 22.04 ami requires this for steamcmd, it seems
+sudo add-apt-repository multiverse -y; # ubuntu 22.04 ami requires this for steamcmd, it seems
 sudo apt update;
 sudo apt install -yq awscli
 # these are the dependencies per LGSM documentation for this server type
