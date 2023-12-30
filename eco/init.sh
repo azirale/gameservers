@@ -38,10 +38,11 @@ update_init_status DEPENDENCIES
 # WIP
 exit
 sudo dpkg --add-architecture i386;
+sudo add-apt-repository multiverse -yq; # ubuntu 22.04 ami requires this for steamcmd, it seems
 sudo apt update;
 sudo apt install -yq awscli
 # these are the dependencies per LGSM documentation for this server type
-sudo apt install -yq curl curl wget file tar bzip2 gzip unzip bsdmainutils python3 util-linux ca-certificates binutils bc jq tmux netcat lib32gcc-s1 lib32stdc++6 libsdl2-2.0-0:i386 steamcmd telnet expect
+sudo apt install -yq curl wget file tar bzip2 gzip unzip bsdmainutils python3 util-linux ca-certificates binutils bc jq tmux netcat lib32gcc-s1 lib32stdc++6 libsdl2-2.0-0:i386 steamcmd libgdiplus
 
 
 # update url to point at this server
@@ -52,9 +53,10 @@ aws route53 change-resource-record-sets --hosted-zone-id ${R53ZONE} --change-bat
 
 # prepare local storage, mount it to the base path for the game and hand over ownership to default user
 update_init_status MOUNT
-sudo mkfs.ext4 -E nodiscard -m0 /dev/nvme1n1
+NVMEDEVICE=/dev/nvme0n1 # ubuntu 22.04 setting it seems
+sudo mkfs.ext4 -E nodiscard -m0 ${NVMEDEVICE}
 mkdir ${BASE_DIR}
-sudo mount -o discard /dev/nvme1n1 ${BASE_DIR}
+sudo mount -o discard ${NVMEDEVICE} ${BASE_DIR}
 sudo chown ${GAME_USER}:${GAME_USER} ${BASE_DIR}
 
 
@@ -62,7 +64,7 @@ sudo chown ${GAME_USER}:${GAME_USER} ${BASE_DIR}
 update_init_status LGSM BOOTSTRAP
 LGSMFILE=linuxgsm.sh
 # this is the game server name per lgsm
-LGSMGAME=sdtdserver
+LGSMGAME=eco
 cd ${BASE_DIR}
 wget -O ${LGSMFILE} https://linuxgsm.sh
 chmod +x ${LGSMFILE}
@@ -71,8 +73,9 @@ chmod +x ${LGSMFILE}
 
 # install the game server
 update_init_status GAME INSTALL
+LGSMGAMESCRIPT=ecoserver # lgsm lists the game as eco but the script is called ecoserver
 cd ${BASE_DIR}
-./${LGSMGAME} ai # autoinstall -- no prompts to hold things up
+./${LGSMGAMESCRIPT} ai # autoinstall -- no prompts to hold things up
 
 
 # prep the management script
