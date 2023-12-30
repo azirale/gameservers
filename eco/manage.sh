@@ -19,8 +19,8 @@ HOUR=$(date +%H)
 
 # locations of various save files and backups
 BACKUP_TAR=backup.tar.gz
-LATEST_BACKUP=${BUCKET_ROOT}/latest.zip
-PERSISTENT_BACKUP=${BUCKET_ROOT}/${YMD}/${YMDHMS}
+LATEST_BACKUP=${BUCKET_ROOT}/latest.tar.gz
+PERSISTENT_BACKUP=${BUCKET_ROOT}/${YMD}/${YMDHMS}.tar.gz
 
 # game specific files/directories to tarball and copy to s3
 BACKUPGLOBS="serverfiles/Configs/ serverfiles/Storage/"
@@ -43,9 +43,9 @@ do_soft_backup() {
 # takes the latest backup and persists it with a unique name
 do_hard_backup() {
     echo "Doing hard backup"
-    ./sdtdserver stop
+    ./ecoserver stop
     do_soft_backup
-    ./sdtdserver start
+    ./ecoserver start
 }
 
 

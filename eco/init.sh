@@ -91,13 +91,13 @@ sed -i "s|__BUCKET_ROOT_REPLACEME__|${BUCKET_ROOT}|g" manage.sh
 # run restore over base installation
 update_init_status RESTORING LAST SAVED STATE
 cd ${BASE_DIR}
-./manage.sh RESTORE
+./manage.sh RESTORE # this will just fail if the game server has only just started
 
 # start game
 update_init_status STARTING GAME
 cd ${BASE_DIR}
-./${LGSMGAME} start
-./${LGSMGAME} details # just to put this in the cloud init log
+./${LGSMGAMESCRIPT} start
+./${LGSMGAMESCRIPT} details # just to put this in the cloud init log
 
 # now that everything is in place schedule backups -- script runs every minute and has logic to determine if it should do anything
 update_init_status SCHEDULING BACKUPS
