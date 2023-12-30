@@ -4,12 +4,6 @@
 # we are expecting env vars of BRANCH;CONTEXT;GAME_USER;BUCKET_NAME;WEBROOT
 # we are expecting to run on ubuntu latest with an NVME drive
 
-#!/bin/bash
-
-# we are expecting to run as GAME_USER -- must have sudo access
-# we are expecting env vars of BRANCH;CONTEXT;GAME_USER;BUCKET_NAME;WEBROOT
-# we are expecting to run on ubuntu latest with an NVME drive
-
 # this is where everything is going to operate out of -- we do not touch anything else
 BASE_DIR=/home/${GAME_USER}/ssd
 

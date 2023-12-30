@@ -18,6 +18,7 @@ export WEBROOT=https://raw.githubusercontent.com/azirale/gameservers/${BRANCH}/$
 
 # grab the init file into the user's home and run as that user to bootstrap everything
 INIT_FILE=/home/${GAME_USER}/init.sh
+HOME=/home/${GAME_USER}
 wget -O ${INIT_FILE} ${WEBROOT}/init.sh
 chown ${GAME_USER}:${GAME_USER} ${INIT_FILE}
 chmod +x ${INIT_FILE}
