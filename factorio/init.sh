@@ -65,11 +65,13 @@ cd ${BASE_DIR}
 ./${LGSMGAME} ai # autoinstall -- no prompts to hold things up
 
 
-# prep the management script
+# prep the management scripts
 update_init_status PREPARING SCRIPTS
 cd ${BASE_DIR}
 wget -O manage.sh ${WEBROOT}/manage.sh
 chmod +x manage.sh
+wget -O interrupt_handler.sh ${WEBROOT}/interrupt_handler.sh
+chmod +x interrupt_handler.sh
 # inject instance configuration information into the management script
 sed -i "s|__BASE_DIR_REPLACEME__|${BASE_DIR}|g" manage.sh
 sed -i "s|__BUCKET_ROOT_REPLACEME__|${BUCKET_ROOT}|g" manage.sh
@@ -85,6 +87,8 @@ update_init_status STARTING GAME
 cd ${BASE_DIR}
 ./${LGSMGAME} start
 ./${LGSMGAME} details # just to put this in the cloud init log
+# run termination catcher
+./interrupt_handler.sh &
 
 # now that everything is in place schedule backups -- script runs every minute and has logic to determine if it should do anything
 update_init_status SCHEDULING BACKUPS
