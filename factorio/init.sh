@@ -27,18 +27,20 @@ update_init_status() {
 }
 
 
-# update and install dependencies for the game, plus awscli for self-management
-update_init_status DEPENDENCIES
-sudo dpkg --add-architecture i386;
-sudo apt update;
-sudo apt install -yq awscli
-sudo apt install -yq curl wget file tar bzip2 gzip unzip bsdmainutils python3 util-linux ca-certificates binutils bc jq tmux netcat lib32gcc1 lib32stdc++6 xz-utils
-
-
-# update url to point at this server
-update_init_status URL
-PUBLICIP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null)
+# get aws cli for self-management and update url to point at this server
+update_init_status AWS URL
+sudo snap install aws-cli --classic
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600" 2>/dev/null)
+PUBLICIP=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null)
 aws route53 change-resource-record-sets --hosted-zone-id ${R53ZONE} --change-batch "{\"Comment\":\"Update_server_ip\",\"Changes\":[{\"Action\":\"UPSERT\",\"ResourceRecordSet\":{\"Name\":\"${URLPREFIX}.${URLBASE}\",\"Type\":\"A\",\"TTL\":${URLTTL},\"ResourceRecords\":[{\"Value\":\"${PUBLICIP}\"}]}}]}"
+
+
+# install dependencies for game (that it cannot quite install on its own)
+sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install -yq binutils bsdmainutils bzip2 lib32gcc-s1 lib32stdc++6
+# this one requires i386 arch
+sudo apt install -yq libsdl2-2.0-0:i386
 
 
 # prepare local storage, mount it to the base path for the game and hand over ownership to default user
