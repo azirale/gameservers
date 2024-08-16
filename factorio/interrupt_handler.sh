@@ -15,7 +15,9 @@ while sleep 5; do
     elif [[ "${HTTP_CODE}" -eq 200 ]] ; then
         # copy the latest autosave out
         cd ${BASE_DIR}
+        ./fctrserver st
         ./manage.sh BACKUP_LATEST
+        ./manage.sh BACKUP_SETTINGS
         exit
     fi
 done
